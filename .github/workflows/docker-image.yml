@@ -34,6 +34,7 @@ jobs:
     - name: Docker push
       run: |
         docker push dsbpim/docker-graphql:0.0.2 
+        docker push dsbpim/docker-graphql:latest
 
 
 
