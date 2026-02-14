@@ -26,5 +26,23 @@ jobs:
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando login"
+        
+    - name: Docker build
+      run: |
+        docker build -t dsbpim/ghact-graphql:0.0.2 .
+    - name: Docker push
+      run: |
+        docker push dsbpim/ghact-graphql:0.0.2 .
+
+
+
+
+
+
+
+
+
+
+    
     # - name: Build the Docker image
       # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
