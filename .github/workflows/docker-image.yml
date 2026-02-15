@@ -18,6 +18,14 @@ jobs:
       with:
         fetch-depth: 0
         
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        MAJOR_PATTERN: "major"
+        MINOR_PATTERN: "feat"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+        
     - name: Docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -28,14 +36,18 @@ jobs:
         echo "Finalizando login"
         
     - name: Docker build
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
-        docker build -t dsbpim/ghact-graphql:0.0.2 .
+        docker build -t dsbpim/ghact-graphql:$NEW_VERSION .
         docker build -t dsbpim/ghact-graphql:latest .
-        docker image tag dsbpim/ghact-graphql:0.0.2 dsbpim/docker-graphql:0.0.2
+        docker image tag dsbpim/ghact-graphql:NEW_VERSION dsbpim/docker-graphql:$NEW_VERSION
         docker image tag dsbpim/ghact-graphql:latest dsbpim/docker-graphql:latest
     - name: Docker push
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
-        docker push dsbpim/docker-graphql:0.0.2 
+        docker push dsbpim/docker-graphql:$NEW_VERSION
         docker push dsbpim/docker-graphql:latest
 
 
