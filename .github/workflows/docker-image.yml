@@ -41,7 +41,7 @@ jobs:
       run: |
         docker build -t dsbpim/ghact-graphql:$NEW_VERSION .
         docker build -t dsbpim/ghact-graphql:latest .
-        docker image tag dsbpim/ghact-graphql:NEW_VERSION dsbpim/docker-graphql:$NEW_VERSION
+        docker image tag dsbpim/ghact-graphql:$NEW_VERSION dsbpim/docker-graphql:$NEW_VERSION
         docker image tag dsbpim/ghact-graphql:latest dsbpim/docker-graphql:latest
     - name: Docker push
       env:
